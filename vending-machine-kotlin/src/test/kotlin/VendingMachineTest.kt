@@ -71,6 +71,12 @@ internal class VendingMachineTest {
         assertEquals("Coke is not available.", vendingMachine.takeCoins(Coin.DIME))
     }
 
+    @Test
+    fun restockTest() {
+        vendingMachine.restock(Product.COKE, 10)
+        assertEquals(mutableMapOf(Product.COKE to 20, Product.PEPSI to 10, Product.SODA to 10), vendingMachine.inventory)
+    }
+
 
 
 }

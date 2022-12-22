@@ -65,7 +65,10 @@ class VendingMachine (val id: String, val inventory: MutableMap<Product, Int>, v
         return "Your purchase for ${capitalizeProductName()} has been cancelled. Here is your refund: £$currentSaleBalance."
     }
 
-    //TODO: implement method to restock machine
+    fun restock(product: Product, quantity: Int) {
+        inventory.merge(product, quantity, Int::plus)
+    }
+
     //TODO: implement method to produce sales record
 
 
