@@ -4,7 +4,8 @@
 # Allows a user to get a refund by cancelling the request.
 # Returns the selected product and remaining change, if any.
 # Allows a reset operation for the vending machine supplier.
-
+# TODO: cancelling resets machine to enter selection
+# TODO: check selection in menu earlier
 
 def get_selection():
     selection = input("Enter selection:").capitalize()
