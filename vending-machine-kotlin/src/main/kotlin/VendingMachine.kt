@@ -1,4 +1,9 @@
+import java.math.RoundingMode
+import java.util.*
+
 class VendingMachine (val id: String, val inventory: MutableMap<Product, Int>, var balance: Double){
+    private var currentSaleBalance = 0.00
+
     fun getInventoryForProduct(product: Product): Int? {
         return inventory[product]
     }
@@ -13,9 +18,35 @@ class VendingMachine (val id: String, val inventory: MutableMap<Product, Int>, v
         return balance
     }
 
-    fun takeCoins(product: Product) {
-
+    fun takeCoins(product: Product, coin: Coin): String {
+        currentSaleBalance += coin.value*0.01
+        val balanceRemaining = product.price*0.01-coin.value*0.01
+        return checkTotal(product, balanceRemaining)
     }
+
+    private fun checkTotal(product: Product, balanceRemaining: Double): String {
+        val capitalizedProductName = product.name.lowercase(Locale.getDefault()).replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+        val change = (currentSaleBalance - product.price*0.01).toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+
+        if (currentSaleBalance == product.price*0.01) {
+            updateInventoryAfterSale(product)
+            updateBalanceAfterSale(product)
+            return "$capitalizedProductName dispensed. Enjoy."
+        } else if (currentSaleBalance > product.price*0.01) {
+            updateInventoryAfterSale(product)
+            updateBalanceAfterSale(product)
+            return "Here is your change: $change. $capitalizedProductName dispensed. Enjoy."
+        } else {
+            return "$capitalizedProductName costs £${product.price * 0.01}. \n " +
+                    "You've paid £$currentSaleBalance. \n " +
+                    "£$balanceRemaining remaining."
+        }
+    }
+
+    //TODO: give refund if user cancel purchase
+    //TODO: terminate purchase if product is sold out
+    //TODO: implement method to restock machine
+    //TODO: implement method to produce sales record
 
 
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="VendingMachineTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-12-22T12:06:11" hostname="AT-ALJLQ6P5" time="0.008">
+<testsuite name="VendingMachineTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-12-22T14:48:54" hostname="AT-ALJLQ6P5" time="0.014">
   <properties/>
-  <testcase name="updateBalanceAfterSellingOneProductTest()" classname="VendingMachineTest" time="0.008"/>
+  <testcase name="checkInventoryAndBalanceCompleteSaleTest()" classname="VendingMachineTest" time="0.014"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
