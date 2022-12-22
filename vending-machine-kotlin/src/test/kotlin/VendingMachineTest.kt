@@ -49,6 +49,19 @@ internal class VendingMachineTest {
         assertEquals(mutableMapOf(Product.COKE to 9, Product.PEPSI to 10, Product.SODA to 10), vendingMachine.inventory)
     }
 
+    @Test
+    fun giveRefundTest() {
+        vendingMachine.takeCoins(Product.COKE, Coin.DIME)
+        vendingMachine.takeCoins(Product.COKE, Coin.QUARTER)
+        assertEquals("Your purchase has been cancelled. Here is your refund: £0.35.", vendingMachine.giveRefund())
+    }
+
+    @Test
+    fun productNotAvailableTest() {
+        val vendingMachine = VendingMachine("1", mutableMapOf(Product.COKE to 0, Product.PEPSI to 10, Product.SODA to 10), 100.00)
+        assertEquals("Coke is not available.", vendingMachine.takeCoins(Product.COKE, Coin.DIME))
+    }
+
 
 
 }

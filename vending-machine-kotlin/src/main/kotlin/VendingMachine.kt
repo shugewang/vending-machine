@@ -3,6 +3,7 @@ import java.util.*
 
 class VendingMachine (val id: String, val inventory: MutableMap<Product, Int>, var balance: Double){
     private var currentSaleBalance = 0.00
+    private lateinit var selectedProduct: Product
 
     fun getInventoryForProduct(product: Product): Int? {
         return inventory[product]
@@ -18,29 +19,50 @@ class VendingMachine (val id: String, val inventory: MutableMap<Product, Int>, v
         return balance
     }
 
+    fun selectProduct(product: Product) {
+        selectedProduct = product
+    }
+
     fun takeCoins(product: Product, coin: Coin): String {
         currentSaleBalance += coin.value*0.01
         val balanceRemaining = product.price*0.01-coin.value*0.01
-        return checkTotal(product, balanceRemaining)
+        if (checkStock(product)) {
+            return checkTotal(product, balanceRemaining)
+        } else {
+            return "${capitalizeProductName(product)} is not available."
+        }
+    }
+
+    private fun capitalizeProductName (product: Product): String {
+        return product.name.lowercase(Locale.getDefault()).replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
     }
 
     private fun checkTotal(product: Product, balanceRemaining: Double): String {
-        val capitalizedProductName = product.name.lowercase(Locale.getDefault()).replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
         val change = (currentSaleBalance - product.price*0.01).toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
 
         if (currentSaleBalance == product.price*0.01) {
             updateInventoryAfterSale(product)
             updateBalanceAfterSale(product)
-            return "$capitalizedProductName dispensed. Enjoy."
+            currentSaleBalance = 0.00
+            return "${capitalizeProductName(product)} dispensed. Enjoy."
         } else if (currentSaleBalance > product.price*0.01) {
             updateInventoryAfterSale(product)
             updateBalanceAfterSale(product)
-            return "Here is your change: $change. $capitalizedProductName dispensed. Enjoy."
+            currentSaleBalance = 0.00
+            return "Here is your change: $change. ${capitalizeProductName(product)} dispensed. Enjoy."
         } else {
-            return "$capitalizedProductName costs £${product.price * 0.01}. \n " +
+            return "${capitalizeProductName(product)} costs £${product.price * 0.01}. \n " +
                     "You've paid £$currentSaleBalance. \n " +
                     "£$balanceRemaining remaining."
         }
+    }
+
+    private fun checkStock(product: Product): Boolean {
+        return inventory[product]!! > 0
+    }
+
+    fun giveRefund(): String{
+        return "Your purchase has been cancelled. Here is your refund: £$currentSaleBalance."
     }
 
     //TODO: give refund if user cancel purchase
