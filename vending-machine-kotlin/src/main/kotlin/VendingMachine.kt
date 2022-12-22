@@ -41,20 +41,22 @@ class VendingMachine (var id: String, var inventory: MutableMap<Product, Int>, v
         val change = (currentSaleBalance - selectedProduct.price*0.01).toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
 
         if (currentSaleBalance == selectedProduct.price*0.01) {
-            updateInventoryAfterSale()
-            updateBalanceAfterSale()
-            currentSaleBalance = 0.00
+            updateMachineAfterSale()
             return "${capitalizeProductName()} dispensed. Enjoy."
         } else if (currentSaleBalance > selectedProduct.price*0.01) {
-            updateInventoryAfterSale()
-            updateBalanceAfterSale()
-            currentSaleBalance = 0.00
+            updateMachineAfterSale()
             return "Here is your change: $change. ${capitalizeProductName()} dispensed. Enjoy."
         } else {
             return "${capitalizeProductName()} costs £${selectedProduct.price * 0.01}. \n " +
                     "You've paid £$currentSaleBalance. \n " +
                     "£$balanceRemaining remaining."
         }
+    }
+
+    private fun updateMachineAfterSale() {
+        updateInventoryAfterSale()
+        updateBalanceAfterSale()
+        currentSaleBalance = 0.00
     }
 
     private fun checkStock(): Boolean {
@@ -77,21 +79,8 @@ class VendingMachine (var id: String, var inventory: MutableMap<Product, Int>, v
 
     //TODO: implement method to produce sales record
 
-
 }
 
-enum class Product (val price: Int){
-    COKE(45),
-    PEPSI(35),
-    SODA(25)
-}
-
-enum class Coin (val value: Int) {
-    PENNY(1),
-    NICKEL(5),
-    DIME(10),
-    QUARTER(25)
-}
 
 class Transactions (val id: Int, val item: Product, val total: Int) {
 
