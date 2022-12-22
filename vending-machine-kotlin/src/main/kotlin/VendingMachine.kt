@@ -3,70 +3,68 @@ import java.util.*
 
 class VendingMachine (val id: String, val inventory: MutableMap<Product, Int>, var balance: Double){
     private var currentSaleBalance = 0.00
-    private lateinit var selectedProduct: Product
-
-    fun getInventoryForProduct(product: Product): Int? {
-        return inventory[product]
-    }
-
-    fun updateInventoryAfterSale(product: Product): MutableMap<Product, Int> {
-        inventory.merge(product, 1, Int::minus)
-        return inventory
-    }
-
-    fun updateBalanceAfterSale(product: Product): Double {
-        balance += product.price*0.01
-        return balance
-    }
+    lateinit var selectedProduct: Product
 
     fun selectProduct(product: Product) {
         selectedProduct = product
     }
 
-    fun takeCoins(product: Product, coin: Coin): String {
+    fun getInventoryForProduct(product: Product): Int? {
+        return inventory[product]
+    }
+
+    fun updateInventoryAfterSale(): MutableMap<Product, Int> {
+        inventory.merge(selectedProduct, 1, Int::minus)
+        return inventory
+    }
+
+    fun updateBalanceAfterSale(): Double {
+        balance += selectedProduct.price*0.01
+        return balance
+    }
+
+    fun takeCoins(coin: Coin): String {
         currentSaleBalance += coin.value*0.01
-        val balanceRemaining = product.price*0.01-coin.value*0.01
-        if (checkStock(product)) {
-            return checkTotal(product, balanceRemaining)
+        val balanceRemaining = selectedProduct.price*0.01-coin.value*0.01
+        if (checkStock()) {
+            return checkTotal(balanceRemaining)
         } else {
-            return "${capitalizeProductName(product)} is not available."
+            return "${capitalizeProductName()} is not available."
         }
     }
 
-    private fun capitalizeProductName (product: Product): String {
-        return product.name.lowercase(Locale.getDefault()).replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+    private fun capitalizeProductName (): String {
+        return selectedProduct.name.lowercase(Locale.getDefault()).replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
     }
 
-    private fun checkTotal(product: Product, balanceRemaining: Double): String {
-        val change = (currentSaleBalance - product.price*0.01).toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+    private fun checkTotal(balanceRemaining: Double): String {
+        val change = (currentSaleBalance - selectedProduct.price*0.01).toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
 
-        if (currentSaleBalance == product.price*0.01) {
-            updateInventoryAfterSale(product)
-            updateBalanceAfterSale(product)
+        if (currentSaleBalance == selectedProduct.price*0.01) {
+            updateInventoryAfterSale()
+            updateBalanceAfterSale()
             currentSaleBalance = 0.00
-            return "${capitalizeProductName(product)} dispensed. Enjoy."
-        } else if (currentSaleBalance > product.price*0.01) {
-            updateInventoryAfterSale(product)
-            updateBalanceAfterSale(product)
+            return "${capitalizeProductName()} dispensed. Enjoy."
+        } else if (currentSaleBalance > selectedProduct.price*0.01) {
+            updateInventoryAfterSale()
+            updateBalanceAfterSale()
             currentSaleBalance = 0.00
-            return "Here is your change: $change. ${capitalizeProductName(product)} dispensed. Enjoy."
+            return "Here is your change: $change. ${capitalizeProductName()} dispensed. Enjoy."
         } else {
-            return "${capitalizeProductName(product)} costs £${product.price * 0.01}. \n " +
+            return "${capitalizeProductName()} costs £${selectedProduct.price * 0.01}. \n " +
                     "You've paid £$currentSaleBalance. \n " +
                     "£$balanceRemaining remaining."
         }
     }
 
-    private fun checkStock(product: Product): Boolean {
-        return inventory[product]!! > 0
+    private fun checkStock(): Boolean {
+        return inventory[selectedProduct]!! > 0
     }
 
     fun giveRefund(): String{
-        return "Your purchase has been cancelled. Here is your refund: £$currentSaleBalance."
+        return "Your purchase for ${capitalizeProductName()} has been cancelled. Here is your refund: £$currentSaleBalance."
     }
 
-    //TODO: give refund if user cancel purchase
-    //TODO: terminate purchase if product is sold out
     //TODO: implement method to restock machine
     //TODO: implement method to produce sales record
 
