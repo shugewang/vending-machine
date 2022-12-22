@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="VendingMachineTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2022-12-22T16:01:11" hostname="AT-ALJLQ6P5" time="0.022">
+<testsuite name="VendingMachineTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-12-22T16:09:32" hostname="AT-ALJLQ6P5" time="0.011">
   <properties/>
-  <testcase name="updateInventoryAfterSellingOneProductTest()" classname="VendingMachineTest" time="0.01"/>
-  <testcase name="productNotAvailableTest()" classname="VendingMachineTest" time="0.001"/>
-  <testcase name="updateBalanceAfterSellingOneProductTest()" classname="VendingMachineTest" time="0.001"/>
-  <testcase name="takeCoinsGiveChangeCompleteSaleTest()" classname="VendingMachineTest" time="0.001"/>
-  <testcase name="restockTest()" classname="VendingMachineTest" time="0.001"/>
-  <testcase name="checkInventoryAndBalanceCompleteSaleTest()" classname="VendingMachineTest" time="0.004"/>
-  <testcase name="giveRefundTest()" classname="VendingMachineTest" time="0.001"/>
-  <testcase name="getInventoryForProductTest()" classname="VendingMachineTest" time="0.0"/>
-  <testcase name="takeCoinsIncompleteSaleTest()" classname="VendingMachineTest" time="0.0"/>
-  <testcase name="takeCoinsCompleteSaleTest()" classname="VendingMachineTest" time="0.0"/>
+  <testcase name="reset()" classname="VendingMachineTest" time="0.011"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

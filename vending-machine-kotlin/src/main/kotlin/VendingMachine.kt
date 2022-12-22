@@ -1,7 +1,7 @@
 import java.math.RoundingMode
 import java.util.*
 
-class VendingMachine (val id: String, val inventory: MutableMap<Product, Int>, var balance: Double){
+class VendingMachine (var id: String, var inventory: MutableMap<Product, Int>, var balance: Double){
     private var currentSaleBalance = 0.00
     lateinit var selectedProduct: Product
 
@@ -67,6 +67,12 @@ class VendingMachine (val id: String, val inventory: MutableMap<Product, Int>, v
 
     fun restock(product: Product, quantity: Int) {
         inventory.merge(product, quantity, Int::plus)
+    }
+
+    fun reset() {
+        id = ""
+        inventory = mutableMapOf()
+        balance = 0.0
     }
 
     //TODO: implement method to produce sales record

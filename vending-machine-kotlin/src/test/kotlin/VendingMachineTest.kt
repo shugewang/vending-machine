@@ -77,6 +77,12 @@ internal class VendingMachineTest {
         assertEquals(mutableMapOf(Product.COKE to 20, Product.PEPSI to 10, Product.SODA to 10), vendingMachine.inventory)
     }
 
-
+    @Test
+    fun reset() {
+        vendingMachine.reset()
+        assertEquals("", vendingMachine.id)
+        assertEquals(mutableMapOf<Product,Int>(), vendingMachine.inventory)
+        assertEquals(0.0, vendingMachine.balance)
+    }
 
 }
