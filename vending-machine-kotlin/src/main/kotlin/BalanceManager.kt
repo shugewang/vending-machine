@@ -4,7 +4,7 @@ class BalanceManager {
     var vendingMachineBalance = 100.00
     var selectedProductPrice = 0.00
     var totalMoneyInserted = 0.00
-    var needToPay = 0.00
+    var leftToPay = 0.00
 
     fun updateBalanceAfterSale(selectedProduct: Product) {
         vendingMachineBalance += selectedProduct.price*0.01
@@ -18,9 +18,9 @@ class BalanceManager {
         return price.toBigDecimal().setScale(2, RoundingMode.DOWN).toDouble()
     }
 
-    fun takeCoinAndReturnBalance(selectedProduct: Product, coin: Coin) {
+    fun takeCoinAndGetLeftToPay(selectedProduct: Product, coin: Coin) {
         totalMoneyInserted += roundPricing(coin.value*0.01)
-        needToPay = roundPricing(selectedProduct.price*0.01-totalMoneyInserted)
+        leftToPay = roundPricing(selectedProduct.price*0.01-totalMoneyInserted)
     }
 
     fun isFullyPaid(selectedProduct: Product): Boolean {

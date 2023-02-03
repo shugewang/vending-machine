@@ -1,8 +1,7 @@
 import java.util.*
 import kotlin.system.exitProcess
 
-//class VendingMachine (var id: String, var stockManager: StockManager, var balanceManager: BalanceManager){
-class VendingMachine (var id: String){
+class VendingMachine {
     var stockManager = StockManager()
     var balanceManager = BalanceManager()
     var selectedProduct: Product? = null
@@ -31,13 +30,8 @@ class VendingMachine (var id: String){
                 val change = balanceManager.getChange()
                 println("Here is your change: £$change.")
             }
-            finishTransaction()
+            endTransaction()
         }
-    }
-
-    fun finishTransaction() {
-        println("${capitalizeString(selectedProduct!!.name)} dispensed. Enjoy.")
-        updateMachineAfterSale()
     }
 
     fun insertCoin() {
@@ -48,9 +42,14 @@ class VendingMachine (var id: String){
             exitProcess(0)
         } else {
             val coin = Coin.valueOf(userInput.uppercase())
-            balanceManager.takeCoinAndReturnBalance(selectedProduct!!, coin)
-            println("You've paid £${balanceManager.totalMoneyInserted}. £${balanceManager.needToPay} remaining.")
+            balanceManager.takeCoinAndGetLeftToPay(selectedProduct!!, coin)
+            println("You've paid £${balanceManager.totalMoneyInserted}. £${balanceManager.leftToPay} remaining.")
         }
+    }
+
+    fun endTransaction() {
+        println("${capitalizeString(selectedProduct!!.name)} dispensed. Enjoy.")
+        updateMachineAfterSale()
     }
 
     private fun capitalizeString(selectedProductName: String): String {
@@ -67,7 +66,7 @@ class VendingMachine (var id: String){
 }
 
 fun main() {
-    var vendingMachine = VendingMachine("1")
+    var vendingMachine = VendingMachine()
     vendingMachine.selectProduct()
     vendingMachine.processPurchase()
 }
