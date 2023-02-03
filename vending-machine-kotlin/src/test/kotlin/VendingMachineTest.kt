@@ -1,5 +1,4 @@
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class VendingMachineTest {
@@ -8,7 +7,7 @@ internal class VendingMachineTest {
     @Test
     fun getInventoryForProductTest() {
         vendingMachine.selectProduct(Product.COKE)
-        assertEquals(10, vendingMachine.productStorage.getInventoryForProduct(vendingMachine.selectedProduct))
+        assertEquals(10, vendingMachine.stockManager.getInventoryForProduct(vendingMachine.selectedProduct))
     }
 //
 //    @Test
