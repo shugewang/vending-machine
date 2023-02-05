@@ -14,4 +14,11 @@ class StockManager {
     fun restock(selectedProduct: Product, quantity: Int) {
         inventory.merge(selectedProduct, quantity, Int::plus)
     }
+
+    fun checkInventory() {
+        println("Stock")
+        for (product in inventory) {
+            println("${product.key}: ${product.value}")
+        }
+    }
 }

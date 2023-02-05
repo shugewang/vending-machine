@@ -23,10 +23,10 @@ class VendingMachine {
 
     fun processPurchase() {
         if (selectedProduct != null) {
-            while (!balanceManager.isFullyPaid(selectedProduct!!)) {
+            while (!balanceManager.isFullyPaid()) {
                 insertCoin()
             }
-            if (balanceManager.isOverPaid(selectedProduct!!)) {
+            if (balanceManager.isOverPaid()) {
                 val change = balanceManager.getChange()
                 println("Here is your change: £$change.")
             }
@@ -69,4 +69,5 @@ fun main() {
     var vendingMachine = VendingMachine()
     vendingMachine.selectProduct()
     vendingMachine.processPurchase()
+    vendingMachine.stockManager.checkInventory()
 }

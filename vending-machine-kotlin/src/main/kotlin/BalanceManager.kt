@@ -23,12 +23,12 @@ class BalanceManager {
         leftToPay = roundPricing(selectedProduct.price*0.01-totalMoneyInserted)
     }
 
-    fun isFullyPaid(selectedProduct: Product): Boolean {
-        return totalMoneyInserted >= selectedProduct.price * 0.01
+    fun isFullyPaid(): Boolean {
+        return totalMoneyInserted >= selectedProductPrice
     }
 
-    fun isOverPaid(selectedProduct: Product): Boolean {
-        return totalMoneyInserted > selectedProduct.price * 0.01
+    fun isOverPaid(): Boolean {
+        return totalMoneyInserted > selectedProductPrice
     }
 
     fun getChange(): Double {
