@@ -1,26 +1,22 @@
 import java.math.RoundingMode
 
-class BalanceManager {
-    var vendingMachineBalance = 100.00
-    var selectedProductPrice = 0.00
-    var totalMoneyInserted = 0.00
-    var leftToPay = 0.00
+class BalanceManager (var vendingMachineBalance: Double = 100.00, var selectedProductPrice: Double = 0.00, var totalMoneyInserted: Double = 0.00, var leftToPay: Double = 0.00){
+    fun getPrice(selectedProduct: Product) {
+        selectedProductPrice =  convertCentToDollar(selectedProduct.price)
+    }
 
     fun updateBalanceAfterSale(selectedProduct: Product) {
-        vendingMachineBalance += selectedProduct.price*0.01
+        getPrice(selectedProduct)
+        vendingMachineBalance += selectedProductPrice
     }
 
-    fun getPrice(selectedProduct: Product) {
-        selectedProductPrice =  roundPricing(selectedProduct.price*0.01)
-    }
-
-    fun roundPricing(price: Double): Double {
-        return price.toBigDecimal().setScale(2, RoundingMode.DOWN).toDouble()
+    fun convertCentToDollar(price: Int): Double {
+        return price*0.01.toBigDecimal().setScale(2, RoundingMode.DOWN).toDouble()
     }
 
     fun takeCoinAndGetLeftToPay(selectedProduct: Product, coin: Coin) {
-        totalMoneyInserted += roundPricing(coin.value*0.01)
-        leftToPay = roundPricing(selectedProduct.price*0.01-totalMoneyInserted)
+        totalMoneyInserted += convertCentToDollar(coin.value)
+        leftToPay = convertCentToDollar(selectedProduct.price) - totalMoneyInserted
     }
 
     fun isFullyPaid(): Boolean {
@@ -32,6 +28,6 @@ class BalanceManager {
     }
 
     fun getChange(): Double {
-        return roundPricing(totalMoneyInserted - selectedProductPrice)
+        return totalMoneyInserted - selectedProductPrice
     }
 }

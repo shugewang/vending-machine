@@ -1,9 +1,7 @@
 import java.util.*
 import kotlin.system.exitProcess
 
-class VendingMachine {
-    var stockManager = StockManager()
-    var balanceManager = BalanceManager()
+class VendingMachine (var stockManager: StockManager, var balanceManager: BalanceManager){
     var selectedProduct: Product? = null
 
     fun selectProduct() {
@@ -63,10 +61,15 @@ class VendingMachine {
     }
 
     //TODO: implement method to produce sales record
+    //TODO: fix rounding
+    //TODO: admin, restart after purchase and not in stock, support multiple ways of inserting coins, exceptions
+    //TODO: testing
 }
 
 fun main() {
-    var vendingMachine = VendingMachine()
+    var stockManager = StockManager()
+    var balanceManager = BalanceManager()
+    var vendingMachine = VendingMachine(stockManager, balanceManager)
     vendingMachine.selectProduct()
     vendingMachine.processPurchase()
     vendingMachine.stockManager.checkInventory()
