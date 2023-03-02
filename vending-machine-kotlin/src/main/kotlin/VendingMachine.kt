@@ -1,3 +1,4 @@
+import java.math.BigDecimal
 import java.util.*
 import kotlin.system.exitProcess
 
@@ -57,7 +58,7 @@ class VendingMachine (var stockManager: StockManager, var balanceManager: Balanc
     private fun updateMachineAfterSale() {
         stockManager.updateInventoryAfterSale(selectedProduct!!)
         balanceManager.updateBalanceAfterSale(selectedProduct!!)
-        balanceManager.totalMoneyInserted = 0.00
+        balanceManager.totalMoneyInserted = BigDecimal(0)
     }
 
     //TODO: implement method to produce sales record

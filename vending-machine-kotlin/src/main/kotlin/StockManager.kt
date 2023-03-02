@@ -13,10 +13,12 @@ class StockManager (var inventory: MutableMap<Product, Int> = mutableMapOf(Produ
         inventory.merge(selectedProduct, quantity, Int::plus)
     }
 
-    fun checkInventory() {
-        println("Stock")
+    fun checkInventory(): String {
+        var inventoryString = "Stock"
         for (product in inventory) {
-            println("${product.key}: ${product.value}")
+            inventoryString += "\n${product.key}: ${product.value}"
         }
+        println(inventoryString)
+        return inventoryString
     }
 }

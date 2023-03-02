@@ -1,6 +1,10 @@
-import java.math.RoundingMode
+import java.math.BigDecimal
 
-class BalanceManager (var vendingMachineBalance: Double = 100.00, var selectedProductPrice: Double = 0.00, var totalMoneyInserted: Double = 0.00, var leftToPay: Double = 0.00){
+class BalanceManager (var vendingMachineBalance: BigDecimal = BigDecimal(100)){
+    var selectedProductPrice: BigDecimal = BigDecimal(0)
+    var totalMoneyInserted: BigDecimal = BigDecimal(0)
+    var leftToPay: BigDecimal = BigDecimal(0)
+
     fun getPrice(selectedProduct: Product) {
         selectedProductPrice =  convertCentToDollar(selectedProduct.price)
     }
@@ -10,8 +14,8 @@ class BalanceManager (var vendingMachineBalance: Double = 100.00, var selectedPr
         vendingMachineBalance += selectedProductPrice
     }
 
-    fun convertCentToDollar(price: Int): Double {
-        return price*0.01.toBigDecimal().setScale(2, RoundingMode.DOWN).toDouble()
+    fun convertCentToDollar(price: Int): BigDecimal {
+        return (price*0.01).toBigDecimal()
     }
 
     fun takeCoinAndGetLeftToPay(selectedProduct: Product, coin: Coin) {
@@ -27,7 +31,7 @@ class BalanceManager (var vendingMachineBalance: Double = 100.00, var selectedPr
         return totalMoneyInserted > selectedProductPrice
     }
 
-    fun getChange(): Double {
+    fun getChange(): BigDecimal {
         return totalMoneyInserted - selectedProductPrice
     }
 }
